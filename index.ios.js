@@ -18,7 +18,7 @@ class Box extends Component {
 			<View style={[BoxStyles.box, BoxStyles[this.props.width],BoxStyles[this.props.height]]}>
 				<View style={[BoxStyles.top, BoxStyles.height50, BoxStyles[this.props.classBg]]}><Text>top</Text></View>
 				<View style={[BoxStyles[this.props.childName]]}>
-					<View style={[BoxStyles.left, BoxStyles.bgyellow]}><Text>left</Text></View>
+					<View style={[BoxStyles.left, BoxStyles[this.props.classBg]]}><Text>left</Text></View>
 					{this.props.children}
 					<View style={[BoxStyles.right, BoxStyles[this.props.classBg]]}><Text>right</Text></View>
 				</View>
@@ -33,9 +33,41 @@ class MargginBox extends Component {
 	render() {
 		return (
 			<View style={[BoxStyles.margginBox]}>
-				<Box childName="borderBox" height="height350" width="width350" boxName="margin" classBg="bgred">{this.props.children}</Box>
+				<Box childName="borderBox" height="height400" width="width400" boxName="margin" classBg="bgred">{this.props.children}</Box>
 			</View>
 		);
+	}
+}
+
+class BorderBox extends Component {
+	render() {
+		return (
+			<Box childName="paddingBox" height="height300" width="width300" boxName="border" classBg="bggreen">{this.props.children}</Box>
+		);
+	}
+}
+
+class PaddingBox extends Component {
+	render() {
+		return (
+		<Box childName="elementBox" height="height200" width="width200" boxName="padding" classBg="bgyellow">{this.props.children}</Box>
+		);
+	}
+}
+
+class ElementBox extends Component {
+	render() {
+		return (
+			<View style={[BoxStyles.box, BoxStyles.height100]}>
+				<View style={[BoxStyles.measureBox]}>
+					<View style={[BoxStyles.right]}><Text>height</Text></View>
+				</View>
+				<View style={[BoxStyles.bottom, BoxStyles.height50]}><Text>width</Text></View>
+				<View style={[BoxStyles.label]}><Text>element</Text></View>
+				<View style={[BoxStyles.widthdashed]}></View>
+				<View style={[BoxStyles.heightdashed]}></View>
+			</View>
+		)
 	}
 }
 
@@ -43,6 +75,12 @@ export default class AwesomeProject extends Component {
   render() {
     return (
     	<MargginBox>
+    		<BorderBox>
+    			<PaddingBox>
+    				<ElementBox>
+    				</ElementBox>
+    			</PaddingBox>
+    		</BorderBox>
     	</MargginBox>
     );
   }
@@ -52,8 +90,8 @@ const BoxStyles = StyleSheet.create({
 	height50: {
 		height: 50,
 	},
-	height350: {
-		height: 350,
+	height400: {
+		height: 400,
 	},
 	height300: {
 		height: 300,
@@ -64,8 +102,8 @@ const BoxStyles = StyleSheet.create({
 	height100: {
 		height: 100,
 	},
-	width350: {
-		width: 350,
+	width400: {
+		width: 400,
 	},
 	width300: {
 		width : 300,
@@ -145,8 +183,8 @@ const BoxStyles = StyleSheet.create({
 	margginBox: {
 		position: 'absolute',
 		top: 100,
-		paddingLeft: 7,
-		paddingRight: 7,
+		paddingLeft: 10,
+		paddingRight: 10,
 	},
 	borderBox: {
 		flex : 1,
@@ -169,22 +207,7 @@ const BoxStyles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		alignItems: 'flex-end',
 	},
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#F5F5CF',
-	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		margin: 10,
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	},
+
 });
 
 
