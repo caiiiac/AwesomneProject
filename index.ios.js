@@ -9,8 +9,11 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  PixelRatio
 } from 'react-native';
+
+var onePT = 1 / PixelRatio.get();
 
 export default class AwesomeProject extends Component {
   render() {
