@@ -25,7 +25,7 @@ var imgs = [
 export default class AwesomeProject extends Component {
   render() {
     return (
-      <View style={styles.flex}>
+      <View style={styles.flex, {marginTop: 45}}>
         <RNImage imgs={imgs}> </RNImage>
       </View>
         
