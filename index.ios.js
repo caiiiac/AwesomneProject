@@ -16,7 +16,7 @@ import {
 export default class AwesomeProject extends Component {
   render() {
     return (
-    	<View>
+    	<View style={styles.container}>
     		<FlatList
     			data={[
     				{key: 'Devin'},
@@ -29,7 +29,7 @@ export default class AwesomeProject extends Component {
     				{key: 'Julie'},
     			]}
     			renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-    		/>
+    		></FlatList>
     	</View>
       
     );
