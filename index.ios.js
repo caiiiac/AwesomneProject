@@ -29,7 +29,7 @@ export default class AwesomeProject extends Component {
     				{key: 'Julie'},
     			]}
     			renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-    		></FlatList>
+    		/>
     	</View>
       
     );
