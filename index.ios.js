@@ -20,7 +20,7 @@ export default class AwesomeProject extends Component {
         this.makeRemoteRequest();
     }
 
-    makeRemoteRequest = () => {
+    makeRemoteRequest() {
         const { page, seed } = this.state;
         const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
         this.setState({ loading: true });
@@ -40,7 +40,7 @@ export default class AwesomeProject extends Component {
             });
     };
 
-    handleRefresh = () => {
+    handleRefresh() {
         this.setState(
             {
                 page: 1,
@@ -53,7 +53,7 @@ export default class AwesomeProject extends Component {
         );
     };
 
-    handleLoadMore = () => {
+    handleLoadMore() {
         this.setState(
             {
                 page: this.state.page + 1
@@ -64,7 +64,7 @@ export default class AwesomeProject extends Component {
         );
     };
 
-    renderSeparator = () => {
+    renderSeparator() {
         return (
             <View
                 style={{
@@ -77,11 +77,11 @@ export default class AwesomeProject extends Component {
         );
     };
 
-    renderHeader = () => {
+    renderHeader() {
         return <SearchBar placeholder="Type Here..." lightTheme round />;
     };
 
-    renderFooter = () => {
+    renderFooter() {
         if (!this.state.loading) return null;
 
         return (
@@ -114,10 +114,10 @@ export default class AwesomeProject extends Component {
                     keyExtractor={item => item.email}
                     ItemSeparatorComponent={this.renderSeparator}
                     ListHeaderComponent={this.renderHeader}
-                    ListFooterComponent={this.renderFooter}
-                    onRefresh={this.handleRefresh}
+                    ListFooterComponent={this.renderFooter.bind(this)}
+                    onRefresh={this.handleRefresh.bind(this)}
                     refreshing={this.state.refreshing}
-                    onEndReached={this.handleLoadMore}
+                    onEndReached={this.handleLoadMore.bind(this)}
                     onEndReachedThreshold={50}
                 />
             </List>
