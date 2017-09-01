@@ -1,72 +1,127 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React, { Component } from "react";
+import { View, Text, FlatList, ActivityIndicator, AppRegistry } from "react-native";
+import { List, ListItem, SearchBar } from "react-native-elements";
 
-import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    FlatList
-} from 'react-native';
+export default class AwesomeProject extends Component {
+    constructor(props) {
+        super(props);
 
-
-
-export default class AwesomeProject extends React.PureComponent {
-    state = {selected: (new Map(): Map<string, boolean>)};
-
-    _keyExtractor = (item, index) => item.id;
-
-    _onPressItem = (id: string) => {
-        this.setState((state) => {
-            const selected = new Map(state.selected);
-            selected.set(id, !selected.get(id));
-            return {selected};
-        });
+        this.state = {
+            loading: false,
+            data: [],
+            page: 1,
+            seed: 1,
+            error: null,
+            refreshing: false
+        };
     }
 
-    _renderItem = ({item}) => (
-        <FlatListItem
-            id={item.id}
-            onPressItem={this._onPressItem}
-            selected={!!this.state.selected.get(item.id)}
-            title={item.title}
-        />
-    );
+    componentDidMount() {
+        this.makeRemoteRequest();
+    }
 
-    render() {
-        return (
-            <FlatList
-                data={this.props.data}
-                extraData={this.state}
-                keyExtractor={this._keyExtractor}
-                renderItem={this._renderItem}
-            />
-      
+    makeRemoteRequest = () => {
+        const { page, seed } = this.state;
+        const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+        this.setState({ loading: true });
+
+        fetch(url)
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    data: page === 1 ? res.results : [...this.state.data, ...res.results],
+                    error: res.error || null,
+                    loading: false,
+                    refreshing: false
+                });
+            })
+            .catch(error => {
+                this.setState({ error, loading: false });
+            });
+    };
+
+    handleRefresh = () => {
+        this.setState(
+            {
+                page: 1,
+                seed: this.state.seed + 1,
+                refreshing: true
+            },
+            () => {
+                this.makeRemoteRequest();
+            }
         );
-    }
-}
+    };
 
-class FlatListItem extends React.PureComponent {
-    _onPress = () => {
-        this.props.onPressItem(this.props.id);
+    handleLoadMore = () => {
+        this.setState(
+            {
+                page: this.state.page + 1
+            },
+            () => {
+                this.makeRemoteRequest();
+            }
+        );
+    };
+
+    renderSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: "86%",
+                    backgroundColor: "#CED0CE",
+                    marginLeft: "14%"
+                }}
+            />
+        );
+    };
+
+    renderHeader = () => {
+        return <SearchBar placeholder="Type Here..." lightTheme round />;
+    };
+
+    renderFooter = () => {
+        if (!this.state.loading) return null;
+
+        return (
+            <View
+                style={{
+                    paddingVertical: 20,
+                    borderTopWidth: 1,
+                    borderColor: "#CED0CE"
+                }}
+            >
+                <ActivityIndicator animating size="large" />
+            </View>
+        );
     };
 
     render() {
-        return(
-            <SomeOtherWidget
-                {...this.props}
-                onPress={this._onPress}
-            ></SomeOtherWidget>
-        )
+        return (
+            <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+                <FlatList
+                    data={this.state.data}
+                    renderItem={({ item }) => (
+                        <ListItem
+                            roundAvatar
+                            title={`${item.name.first} ${item.name.last}`}
+                            subtitle={item.email}
+                            avatar={{ uri: item.picture.thumbnail }}
+                            containerStyle={{ borderBottomWidth: 0 }}
+                        />
+                    )}
+                    keyExtractor={item => item.email}
+                    ItemSeparatorComponent={this.renderSeparator}
+                    ListHeaderComponent={this.renderHeader}
+                    ListFooterComponent={this.renderFooter}
+                    onRefresh={this.handleRefresh}
+                    refreshing={this.state.refreshing}
+                    onEndReached={this.handleLoadMore}
+                    onEndReachedThreshold={50}
+                />
+            </List>
+        );
     }
 }
-
-const styles = StyleSheet.create({
-  
-});
-
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
