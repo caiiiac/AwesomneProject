@@ -89,31 +89,39 @@ class AwesomeProject extends Component {
     }
 
     saveImg(img) {
-        let _that = this;
-        CameraRoll.saveImageWithTag(imgUrl + img).then(
-            (url) => {
-                if (url) {
-                    let images = _that.state.images;
-                    //unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
-                    images.unshift(
-                    {
-                        uri: url,
-                    }
-                );
-            _that.setState({
-                images: images,
+    //     let _that = this;
+    //     CameraRoll.saveImageWithTag(imgUrl + img).then(
+    //         (url) => {
+    //             if (url) {
+    //                 let images = _that.state.images;
+    //                 //unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
+    //                 images.unshift(
+    //                 {
+    //                     uri: url,
+    //                 }
+    //             );
+    //         _that.setState({
+    //             images: images,
+    //         });
+    //
+    //     }
+    //   }
+    // ).catch(error => {
+    //   alert('保存照片失败-error-' + error);
+    //
+    // });
+
+        CameraRoll.saveToCameraRoll(imgUrl + img)
+            .then(
+                (result) => {
+                    alert('保存成功! \n' + result);
+                }
+            )
+            .catch(error => {
+                alert('保存失败! \n' + error);
             });
 
-        }
-      }
-    ).catch(error => {
-      alert('保存照片失败-error-' + error);
-
-    });
-
-
-
-  }
+    }
 
 }
 
