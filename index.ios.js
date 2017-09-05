@@ -35,22 +35,17 @@ class AwesomeProject extends Component {
         return (
             <ScrollView>
                 <View style={styles.row}>
-                    <View style={styles.flex_1}>
-                        <Image resizeMode='stretch'
-                            style={[styles.imgHeight, styles.m5]}
-                            source={{ uri: imgUrl + 'dongfangyao888.jpg' }}
-                        />
-                    </View>
 
-                <View style={styles.flex_1}>
-                    <Image  resizeMode='stretch'
-                        style={[styles.imgHeight, styles.m5]}
-                        source={{ uri: imgUrl + 'reactnative.png' }}
-                    />
+                     <View style={styles.flex_1}>
+                        <Image  resizeMode='stretch'
+                            style={[styles.imgHeight, styles.m5]}
+                            source={{ uri: imgUrl + 'reactnative.png' }}
+                        />
+                     </View>
                 </View>
 
                 <View>
-                    <Text onPress={this.saveImg.bind(this, 'dongfangyao888.jpg', 'reactnative.png') }
+                    <Text onPress={this.saveImg.bind(this, 'reactnative.png') }
                     style={styles.saveImg}
                     >
                         保存图片到相册
@@ -93,9 +88,9 @@ class AwesomeProject extends Component {
             });
     }
 
-    saveImg(img1, img2) {
+    saveImg(img) {
         let _that = this;
-        CameraRoll.saveImageWithTag(imgUrl + img1).then(
+        CameraRoll.saveImageWithTag(imgUrl + img).then(
             (url) => {
                 if (url) {
                     let images = _that.state.images;
@@ -108,30 +103,11 @@ class AwesomeProject extends Component {
             _that.setState({
                 images: images,
             });
-            //继续保存第二张图片
-            CameraRoll.saveImageWithTag(imgUrl + img2).then(
-            (url) => {
-              images.unshift(
-                {
-                  uri: url,
-                }
-              );
-              _that.setState({
-                images: images,
-              });
-              alert('图片全部保存成功');
-            }
-
-          ).catch(
-            error => {
-              alert('保存第二张照片失败-error-' + error);
-            }
-            );
 
         }
       }
     ).catch(error => {
-      alert('保存第一张照片失败-error-' + error);
+      alert('保存照片失败-error-' + error);
 
     });
 
@@ -142,7 +118,18 @@ class AwesomeProject extends Component {
 }
 
 const styles = StyleSheet.create({
-
+    flex_1: {
+        flex: 1,
+    },
+    m5: {
+        marginLeft: 5,
+        marginRight: 5,
+        borderWidth: 1,
+        borderColor: '#ddd',
+    },
+    row: {
+        flexDirection: 'row',
+    },
     imageGrid: {
         flex: 1,
         flexDirection: 'row',
@@ -154,6 +141,24 @@ const styles = StyleSheet.create({
         height: 100,
         margin: 10,
     },
+    imgHeight: {
+        height: 180,
+    },
+
+    saveImg: {
+        flex: 1,
+        height: 30,
+        textAlign: 'center',
+        marginTop: 20,
+        color: '#FFF',
+        lineHeight: 20,
+        borderRadius: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        fontWeight: 'bold',
+        backgroundColor: '#3BC1FF',
+    },
+
 });
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
