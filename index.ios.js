@@ -6,21 +6,21 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  PixelRatio
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    PixelRatio
 } from 'react-native';
 
 var onePT = 1 / PixelRatio.get();
 
 export default class AwesomeProject extends Component {
-  render() {
-    return (
+    render() {
+        return (
       
-    );
-  }
+        );
+    }
 }
 
 const styles = StyleSheet.create({
