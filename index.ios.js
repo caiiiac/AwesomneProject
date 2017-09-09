@@ -28,8 +28,36 @@ export default class AwesomeProject extends Component {
     }
 
     render() {
+        let modalBackgroundStyle = {
+            backgroundColor: this.state.transparent ? 'rgba(0,0,0,0.5)' : 'red',
+        };
+
+        let innerContainerTransparentStyle = this.state.transparent ?
+            { backgroundColor: '#fff', padding:20 } :
+            null;
+
         return (
             <View style={{ alignItems: 'center', flex: 1 }}>
+                <Modal
+                    animationType={ this.state.animationType }
+                    transparent={ this.state.transparent }
+                    visible={ this.state.modalVisible }
+                    onRequestClose={ () => { this._setModalVisible(false) }}
+                    onshow={ this.startShow }
+                >
+                    <View
+                        style={[ styles.container, modalBackgroundStyle ]}
+                    >
+                        <View
+                            style={[ styles.innerContainer, innerContainerTransparentStyle ]}
+                        >
+                            <Text style={ styles.new }>发现新版本</Text>
+                        </View>
+
+                    </View>
+
+                </Modal>
+
                 <Text
                     style={styles.upText}
                     onpress={ this._setModalVisible.bind(this, true)}
@@ -41,9 +69,25 @@ export default class AwesomeProject extends Component {
     _setModalVisible = (visible) => {
         this.setState({ modalVisible: visible });
     }
+
+    startShow = () => {
+        alert('开始显示');
+    }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 40,
+    },
+    innerContainer: {
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    new: {
+        textAlign: 'center',
+    },
     upText: {
         fontSize: 28,
         color: 'red',
