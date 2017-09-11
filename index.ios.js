@@ -42,7 +42,7 @@ export default class AwesomeProject extends Component {
                     animationType={ this.state.animationType }
                     transparent={ this.state.transparent }
                     visible={ this.state.modalVisible }
-                    onRequestClose={ () => { this._setModalVisible(false) }}
+                    onRequestClose={ () => { this.setModalVisible(false) }}
                     onshow={ this.startShow }
                 >
                     <View
@@ -52,6 +52,7 @@ export default class AwesomeProject extends Component {
                             style={[ styles.innerContainer, innerContainerTransparentStyle ]}
                         >
                             <Text style={ styles.new }>发现新版本</Text>
+                            <Text style={ [styles.new, styles.upText ] } onPress={ () => { this.setModalVisible(false) }}>点击更新</Text>
                         </View>
 
                     </View>
@@ -60,17 +61,17 @@ export default class AwesomeProject extends Component {
 
                 <Text
                     style={styles.upText}
-                    onpress={ this._setModalVisible.bind(this, true)}
+                    onPress={ this.setModalVisible.bind(this, true) }
                 >检查更新</Text>
             </View>
         );
     }
 
-    _setModalVisible = (visible) => {
+    setModalVisible(visible) {
         this.setState({ modalVisible: visible });
     }
 
-    startShow = () => {
+    startShow() {
         alert('开始显示');
     }
 }
