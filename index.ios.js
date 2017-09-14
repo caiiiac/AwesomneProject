@@ -12,6 +12,8 @@ import {
     View
 } from 'react-native';
 
+import { setValue, getValue } from './counter';
+import { on, remove } from './event';
 
 export default class AwesomeProject extends Component {
     render() {
@@ -28,8 +30,23 @@ class Counter extends  Component {
     constructor(props) {
         super(props);
         this.state = {
-            counter: 0,
+            // counter: 0,
+            counter: getValue(),
         };
+
+        this.handler = ( (value) => {
+            this.setState({
+                counter: value
+            });
+        }).bind(this);
+    }
+
+    componentDidMount() {
+        on('counter-changed', this.handler);
+    }
+
+    componentWillUnmount() {
+        remove('counter-changed', this.handler);
     }
 
     render() {
@@ -42,8 +59,10 @@ class Counter extends  Component {
     }
 
     addCounter() {
+        setValue(getValue() + 1);
         this.setState({
-            counter: this.state.counter + 1
+            // counter: this.state.counter + 1
+            counter: getValue()
         });
     }
 }
