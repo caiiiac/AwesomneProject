@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { setValue, getValue } from './counter';
-import { on, remove } from './event';
+import { connector } from './connector';
 
 export default class AwesomeProject extends Component {
     render() {
@@ -26,33 +26,12 @@ export default class AwesomeProject extends Component {
     }
 }
 
-class Counter extends  Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // counter: 0,
-            counter: getValue(),
-        };
-
-        this.handler = ( (value) => {
-            this.setState({
-                counter: value
-            });
-        }).bind(this);
-    }
-
-    componentDidMount() {
-        on('counter-changed', this.handler);
-    }
-
-    componentWillUnmount() {
-        remove('counter-changed', this.handler);
-    }
+class __Counter extends  Component {
 
     render() {
         return (
             <View style={styles.row}>
-                <Text style={[ styles.font, styles.counterMargin ]}>计数器:{this.state.counter}</Text>
+                <Text style={[ styles.font, styles.counterMargin ]}>计数器:{this.props.data}</Text>
                 <Text style={ styles.font } onPress={this.addCounter.bind(this)}>点击</Text>
             </View>
         );
@@ -60,12 +39,10 @@ class Counter extends  Component {
 
     addCounter() {
         setValue(getValue() + 1);
-        this.setState({
-            // counter: this.state.counter + 1
-            counter: getValue()
-        });
     }
 }
+
+let Counter = connector('counter-changed', __Counter);
 
 const styles = StyleSheet.create({
     container: {
